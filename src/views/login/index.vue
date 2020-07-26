@@ -47,23 +47,12 @@
           </span>
         </el-form-item>
       </el-tooltip>
-
+      <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 25px 0px;">记住账号</el-checkbox>
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">
-        {{ $t('login.logIn') }}
+        <span v-if="!loading">{{ $t('login.logIn') }}</span>
+        <span v-else>登录中</span>
       </el-button>
-
-      <div style="position:relative">
-        <div class="tips">
-          <span>{{ $t('login.username') }} : admin</span>
-          <span>{{ $t('login.password') }} : {{ $t('login.any') }}</span>
-        </div>
-        <div class="tips">
-          <span style="margin-right:18px;">
-            {{ $t('login.username') }} : editor
-          </span>
-          <span>{{ $t('login.password') }} : {{ $t('login.any') }}</span>
-        </div>
-
+      <div style="position:relative;margin-top: 50px">
         <el-button class="thirdparty-button" type="primary" @click="showDialog=true">
           {{ $t('login.thirdparty') }}
         </el-button>
@@ -84,6 +73,7 @@
 import { validUsername } from '@/utils/validate'
 import LangSelect from '@/components/LangSelect'
 import SocialSign from './components/SocialSignin'
+import Cookies from 'js-cookie'
 
 export default {
   name: 'Login',
@@ -91,22 +81,22 @@ export default {
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
+        callback(new Error('用户名不能为空'))
       } else {
         callback()
       }
     }
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
+        callback(new Error('密码不能少于6位'))
       } else {
         callback()
       }
     }
     return {
       loginForm: {
-        username: 'admin',
-        password: '111111'
+        username: '',
+        password: ''
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -134,6 +124,7 @@ export default {
   },
   created() {
     // window.addEventListener('storage', this.afterQRScan)
+    this.getCookie()
   },
   mounted() {
     if (this.loginForm.username === '') {
@@ -160,8 +151,24 @@ export default {
         this.$refs.password.focus()
       })
     },
+    getCookie() {
+      const username = Cookies.get('username')
+      const rememberMe = Cookies.get('rememberMe')
+      this.loginForm = {
+        username: username === undefined ? '' : username,
+        rememberMe: rememberMe === undefined ? false : Boolean(rememberMe)
+      }
+    },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
+        const user = { username: this.loginForm.username, password: this.loginForm.password, rememberMe: this.loginForm.rememberMe }
+        if (user.rememberMe) {
+          Cookies.set('username', user.username, { expires: 1 })
+          Cookies.set('rememberMe', user.rememberMe, { expires: 1 })
+        } else {
+          Cookies.remove('username')
+          Cookies.remove('rememberMe')
+        }
         if (valid) {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm)
@@ -173,7 +180,7 @@ export default {
               this.loading = false
             })
         } else {
-          console.log('error submit!!')
+          console.log('提交错误!')
           return false
         }
       })

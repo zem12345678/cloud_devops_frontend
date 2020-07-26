@@ -1,6 +1,7 @@
 import axios from 'axios'
 // eslint-disable-next-line no-unused-vars
-import { MessageBox, Message } from 'element-ui'
+import router from '@/router'
+import { Notification, detailBox } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 
@@ -54,41 +55,61 @@ service.interceptors.response.use(
    * You can also judge the status by HTTP Status Code
    */
   response => {
-    const res = response.data
-
-    // if the custom code is not 0, it is judged as an error.
-    if (res.code !== 200) {
-      Message({
-        message: res.message || 'Error',
-        type: 'error',
-        duration: 5 * 1000
+    const code = response.status
+    if (code < 200 || code > 300) {
+      Notification.error({
+        title: '错误',
+        message: response.data
       })
-
-      // // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
-      // if (res.errno === 50008 || res.errno === 50012 || res.errno === 50014) {
-      //   // to re-login
-      //   MessageBox.confirm('You have been logged out, you can cancel to stay on this page, or log in again', 'Confirm logout', {
-      //     confirmButtonText: 'Re-Login',
-      //     cancelButtonText: 'Cancel',
-      //     type: 'warning'
-      //   }).then(() => {
-      //     store.dispatch('user/resetToken').then(() => {
-      //       location.reload()
-      //     })
-      //   })
-      // }
-      return Promise.reject(new Error(res.message || 'Error'))
+      return Promise.reject('error')
     } else {
-      return res
+      return response.data
     }
   },
   error => {
-    console.log('err' + error) // for debug
-    Message({
-      message: error.message,
-      type: 'error',
-      duration: 5 * 1000
-    })
+    let code = 0
+    try {
+      code = error.response.data.status
+    } catch (e) {
+      if (error.toString().indexOf('timeout')) {
+        Notification.error({
+          title: '错误',
+          message: '请求超时!'
+        })
+        return Promise.reject(error)
+      }
+    }
+    if (code === 401) {
+      detailBox.confirm(
+        '登录状态过期了哦，您可以继续留在该页面，或者重新登录',
+        '系统提示',
+        {
+          confirmButtonText: '重新登录',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }
+      ).then(() => {
+        store.dispatch('LogOut').then(() => {
+          location.reload() // 为了重新实例化vue-router对象 避免bug
+        })
+      })
+    } else if (code === 403) {
+      router.push({ path: '/401' })
+    } else if (code === 502) {
+      Notification.error({
+        title: '错误',
+        message: '后端服务器连接失败!'
+      })
+    } else {
+      const errorMsg = error.response.data.data
+      if (errorMsg !== undefined) {
+        Notification.error({
+          title: '错误',
+          message: errorMsg,
+          duration: 2500
+        })
+      }
+    }
     return Promise.reject(error)
   }
 )
