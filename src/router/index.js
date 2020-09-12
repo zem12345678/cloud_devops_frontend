@@ -84,6 +84,118 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/books',
+    component: Layout,
+    redirect: '/example/list',
+    name: '图书管理系统',
+    meta: { title: '图书管理系统', icon: 'example' },
+    children: [
+      {
+        path: 'book',
+        name: '图书',
+        component: () => import ('@/views/books/book/index'),
+        meta: { title: '图书', icon: 'table' }
+      },
+      {
+        path: 'author',
+        name: '作者',
+        component: () => import('@/views/books/author/index'),
+        meta: { title: '作者', icon: 'tree' }},
+      {
+        path: 'publish',
+        name: '出版商',
+        component: () => import('@/views/books/publish/index'),
+        meta: { title: '出版商', icon: 'table' }}
+    ]
+  },
+  {
+    path: '/project',
+    component: Layout,
+    name: '项目管理',
+    meta: { title: '项目管理', icon: 'code' },
+    children: [
+      {
+        path: 'project',
+        name: '项目管理',
+        component: () => import('@/views/project/project/index'),
+        meta: { title: '项目管理', icon: 'user' }
+      }
+    ]
+  },
+  // {
+  //   path: '/release',
+  //   component: Layout,
+  //   name: '代码上线',
+  //   meta: { title: '代码上线', icon: 'user' },
+  //   children: [
+  //     {
+  //       path: 'apply',
+  //       name: '申请上线',
+  //       component: () => import('@/views/release/apply/index'),
+  //       meta: { title: '申请上线', icon: 'user' }
+  //     },
+  //     {
+  //       path: 'list',
+  //       name: '申请列表',
+  //       component: () => import('@/views/release/list/index'),
+  //       meta: { title: '申请列表', icon: 'tree' }
+  //     },
+  //     {
+  //       path: 'history',
+  //       name: '上线列表',
+  //       component: () => import('@/views/release/history/index'),
+  //       meta: { title: '上线列表', icon: 'tree' }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/workorder',
+  //   component: Layout,
+  //   name: '工单系统',
+  //   meta: { title: '工单系统', icon: 'form' },
+  //   children: [
+  //     {
+  //       path: 'apply',
+  //       name: '工单申请',
+  //       component: () => import('@/views/workorder/apply/index'),
+  //       meta: { title: '工单申请', icon: 'form' }
+  //     },
+  //     {
+  //       path: 'list',
+  //       name: '申请列表',
+  //       component: () => import('@/views/workorder/list/index'),
+  //       meta: { title: '申请列表', icon: 'table' }
+  //     },
+  //     {
+  //       path: 'history',
+  //       name: '工单历史',
+  //       component: () => import('@/views/workorder/history/index'),
+  //       meta: { title: '工单历史', icon: 'table' }
+  //     }
+  //   ]
+  // },
+
+  {
+    path: '/tasks',
+    component: Layout,
+    name: '任务系统',
+    meta: { title: '任务系统', icon: 'tree' },
+    children: [
+      {
+        path: 'add',
+        name: '任务添加',
+        component: () => import('@/views/tasks/add/index'),
+        meta: { title: '任务添加', icon: 'form' }
+      },
+      {
+        path: 'list',
+        name: '任务列表',
+        component: () => import('@/views/tasks/list/index'),
+        meta: { title: '申请列表', icon: 'table' }
+      },
+    ]
+  },
+  {
     path: '/documentation',
     component: Layout,
     children: [
