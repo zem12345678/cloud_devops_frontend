@@ -84,6 +84,35 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/user',
+    component: Layout,
+    hidden: true,
+    redirect: 'noredirect',
+    children: [
+      {
+        path: 'center',
+        component: () => import('@/views/system/user/center'),
+        name: '个人中心',
+        meta: { title: '个人中心', icon: 'user' }
+      }
+    ]
+  },
+  // {
+  //   path: '/users',
+  //   component: Layout,
+  //   hidden: true,
+  //   // redirect: 'noredirect',
+  //   meta: { title: '用户管理', icon: 'user' },
+  //   children: [
+  //     {
+  //       path: 'users',
+  //       component: () => import('@/views/system/user/index'),
+  //       name: '用户',
+  //       meta: { title: '个人中心', icon: 'user' }
+  //     }
+  //   ]
+  // },
+  {
     path: '/books',
     component: Layout,
     redirect: '/example/list',
