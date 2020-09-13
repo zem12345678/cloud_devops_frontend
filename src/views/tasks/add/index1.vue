@@ -1,19 +1,20 @@
 <template>
   <div class="apply">
-    <el-form :model="form" :rules="rules" ref="form" label-width="180px">
+    <el-form ref="form" :model="form" :rules="rules" label-width="180px">
 
       <el-form-item label="任务名称：" prop="name">
-        <el-input v-model="form.name"  style="width: 60%;"></el-input>
+        <el-input v-model="form.name" style="width: 60%;" />
       </el-form-item>
 
       <el-form-item label="上传文件：" prop="playbook">
-	<el-upload
-          action=""
+        <el-upload
           ref="upload"
+          action=""
           :file-list="filelist"
-          :auto-upload="false">
+          :auto-upload="false"
+        >
           <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-        </el-upload>	
+        </el-upload>
       </el-form-item>
 
       <el-form-item>
@@ -32,13 +33,13 @@ export default {
     return {
       filelist: [],
       form: {
-	name: '',
-        playbook:''
+        name: '',
+        playbook: ''
       },
       rules: {
         name: [
           { required: true, message: '请输入任务名', trigger: 'blur' }
-        ],
+        ]
       }
     }
   },
@@ -52,7 +53,7 @@ export default {
         console.log(this.filelist)
         this.form.playbook = this.filelist[0]
         const params = Object.assign({}, this.form)
-        console.log(params) 
+        console.log(params)
         createTask(params).then(res => {
           this.$message({
             message: '创建成功',
@@ -68,8 +69,7 @@ export default {
         type: 'warning'
       })
     }
-  },
- 
+  }
 }
 </script>
 

@@ -1,8 +1,10 @@
 <template>
   <div class="project">
     <!--表格-->
-    <project-list :value="projects"></project-list>
-  </div> 
+    <project-list
+      :value="projects"
+    />
+  </div>
 </template>
 
 <script>
@@ -17,7 +19,7 @@ export default {
 
   data() {
     return {
-      projects: [],
+      projects: []
     }
   },
 
@@ -32,7 +34,7 @@ export default {
           this.projects = res
           console.log(this.projects)
         })
-    },
+    }
 
   }
 

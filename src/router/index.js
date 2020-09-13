@@ -117,7 +117,7 @@ export const constantRoutes = [
       {
         path: 'project',
         name: '项目管理',
-        component: () => import('@/views/project/project/index'),
+        component: () => import('@/views/project/index'),
         meta: { title: '项目管理', icon: 'user' }
       }
     ]
@@ -192,7 +192,84 @@ export const constantRoutes = [
         name: '任务列表',
         component: () => import('@/views/tasks/list/index'),
         meta: { title: '申请列表', icon: 'table' }
+      }
+    ]
+  },
+  {
+    path: '/resources',
+    component: Layout,
+    redirect: '/resources/product',
+    name: '资源管理',
+    meta: {
+      title: '资源管理',
+      icon: 'user'
+    },
+    children: [
+      {
+        path: 'product',
+        component: () => import('@/views/resource/ProductList'),
+        name: '业务线',
+        meta: { title: '业务线', icon: 'user' }
       },
+      {
+        path: 'manufacturer',
+        component: () => import('@/views/resource/ManufacturerList'),
+        name: '制造商',
+        meta: { title: '制造商', icon: 'user' }
+      },
+      {
+        path: 'product_model',
+        component: () => import('@/views/resource/ProductModelList'),
+        name: '机型型号',
+        meta: { title: '机型型号', icon: 'user' }
+      },
+      {
+        path: 'idc',
+        component: () => import('@/views/resource/IdcList'),
+        name: 'IDC机房',
+        meta: { title: 'IDC机房', icon: 'user' }
+      },
+      {
+        path: 'cabinet',
+        component: () => import('@/views/resource/CabinetList'),
+        name: '机柜管理',
+        meta: { title: '机柜管理', icon: 'user' }
+      },
+      {
+        path: 'network_device',
+        component: () => import('@/views/resource/NetworkDeviceList'),
+        name: '网卡管理',
+        meta: { title: '网卡管理', icon: 'user' }
+      },
+      {
+        path: 'ip',
+        component: () => import('@/views/resource/IpList'),
+        name: 'IP管理',
+        meta: { title: 'IP管理', icon: 'user' }
+      },
+      {
+        path: 'server',
+        component: () => import('@/views/resource/ServerList'),
+        name: '服务器',
+        meta: { title: '服务器', icon: 'user' }
+      }
+    ]
+  },
+  {
+    path: '/monitor',
+    component: Layout,
+    name: '监控管理',
+    meta: {
+      title: '监控管理',
+      icon: 'user'
+    },
+    children: [
+      {
+        path: 'monitor',
+        component: () => import('@/views/monitor/zabbix'),
+        name: 'monitor',
+        meta: { title: 'monitor', icon: 'user' }
+      }
     ]
   },
   {
