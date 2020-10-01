@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { getIdcsList, createIdc, deleteIdc, updateIdc } from '@/api/idcs'
+import { getIdcsList, createIdc, deleteIdc, updateIdc } from '@/api/resource/resource'
 import IdcList from './list'
 import IdcForm from './form'
 

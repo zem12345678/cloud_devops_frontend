@@ -1,10 +1,10 @@
 <template>
   <div class="user-list-container">
     <el-row :gutter="24">
-      <el-col :span="12" >
-         <el-input placeholder="搜索" v-model="search_key" @keyup.enter.native="searchClick">
-              <el-button slot="append" icon="el-icon-search" @click="searchClick"></el-button>
-          </el-input>
+      <el-col :span="12">
+        <el-input v-model="search_key" placeholder="搜索" @keyup.enter.native="searchClick">
+          <el-button slot="append" icon="el-icon-search" @click="searchClick" />
+        </el-input>
       </el-col>
       <el-col :span="6" :offset="6" class="text-right">
         <el-button type="primary" @click="addClick">添加</el-button>
@@ -12,97 +12,98 @@
     </el-row>
     <!-- 添加IP开始 -->
     <el-dialog title="添加IP" :visible.sync="isFormVisible">
-        <el-form ref="addForm" :model="addForm" label-width="70px" :rules="addRule">
-            <el-form-item label="IP地址" prop="ip_addr">
-                <el-input v-model="addForm.ip_addr" placeholder="请输入IP地址"></el-input>
-            </el-form-item>
-            <el-form-item label="掩码" prop="netmask">
-                <el-input v-model="addForm.netmask" placeholder="掩码"></el-input>
-            </el-form-item>
-            <el-form-item label="所绑定网卡" prop="device">
-              <el-select class="select" v-model="addForm.device" filterable  placeholder="绑定网卡">
-                <el-option
-                  v-for="(item, index) in deviceList"
-                  :key="index"
-                  :label="item.name + ' ['+item.host.hostname+']'"
-                  :value="item.id">
-                </el-option>
-              </el-select>
-            </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-            <el-button @click="isFormVisible = false">取 消</el-button>
-            <el-button type="primary" @click="submitForm">确 定</el-button>
-        </div>
+      <el-form ref="addForm" :model="addForm" label-width="70px" :rules="addRule">
+        <el-form-item label="IP地址" prop="ip_addr">
+          <el-input v-model="addForm.ip_addr" placeholder="请输入IP地址" />
+        </el-form-item>
+        <el-form-item label="掩码" prop="netmask">
+          <el-input v-model="addForm.netmask" placeholder="掩码" />
+        </el-form-item>
+        <el-form-item label="所绑定网卡" prop="device">
+          <el-select v-model="addForm.device" class="select" filterable placeholder="绑定网卡">
+            <el-option
+              v-for="(item, index) in deviceList"
+              :key="index"
+              :label="item.name + ' ['+item.host.hostname+']'"
+              :value="item.id"
+            />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="isFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submitForm">确 定</el-button>
+      </div>
     </el-dialog>
     <!-- /结束 -->
     <!-- 修改IP开始 -->
     <el-dialog title="修改IP" :visible.sync="isEditFormVisible">
-        <el-form ref="editForm" :model="editForm" label-width="70px" :rules="addRule">
-            <el-form-item label="IP地址" prop="ip_addr">
-                <el-input v-model="editForm.ip_addr" placeholder="请输入IP地址"></el-input>
-            </el-form-item>
-            <el-form-item label="掩码" prop="netmask">
-                <el-input v-model="editForm.netmask" placeholder="请输入掩码"></el-input>
-            </el-form-item>
-            <el-form-item label="所绑定网卡" prop="device">
-              <el-select class="select" v-model="editForm.device" filterable  placeholder="绑定网卡">
-                <el-option
-                  v-for="(item, index) in deviceList"
-                  :key="index"
-                  :label="item.name + ' ['+item.host.hostname+']'"
-                  :value="item.id">
-                </el-option>
-              </el-select>
-            </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-            <el-button @click="isEditFormVisible = false">取 消</el-button>
-            <el-button type="primary" @click="submitEditForm">确 定</el-button>
-        </div>
+      <el-form ref="editForm" :model="editForm" label-width="70px" :rules="addRule">
+        <el-form-item label="IP地址" prop="ip_addr">
+          <el-input v-model="editForm.ip_addr" placeholder="请输入IP地址" />
+        </el-form-item>
+        <el-form-item label="掩码" prop="netmask">
+          <el-input v-model="editForm.netmask" placeholder="请输入掩码" />
+        </el-form-item>
+        <el-form-item label="所绑定网卡" prop="device">
+          <el-select v-model="editForm.device" class="select" filterable placeholder="绑定网卡">
+            <el-option
+              v-for="(item, index) in deviceList"
+              :key="index"
+              :label="item.name + ' ['+item.host.hostname+']'"
+              :value="item.id"
+            />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="isEditFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submitEditForm">确 定</el-button>
+      </div>
     </el-dialog>
     <!-- /结束 -->
     <el-table
-            class="table"
-            v-loading="loading"
-            element-loading-text="拼命加载中"
-            :data="dataList"
-            border
-            >
-        <el-table-column
-                prop="ip_addr"
-                label="IP地址"
-                align="center">
-        </el-table-column>
-        <el-table-column
-                prop="netmask"
-                label="掩码"
-                align="center">
-        </el-table-column>
-        <el-table-column
-                prop="device.name"
-                label="绑定网卡"
-                align="center">
-        </el-table-column>
-        <el-table-column
-                prop=""
-                label="操作"
-                width="215"
-                align="center">
-            <template slot-scope="scope">
-              <el-button type="text" size="small"  @click="editClick(scope.row)">修改</el-button>
-              <el-button type="text" size="small"  @click="deleteClick(scope.row)">删除</el-button>
-            </template>
-        </el-table-column>
+      v-loading="loading"
+      class="table"
+      element-loading-text="拼命加载中"
+      :data="dataList"
+      border
+    >
+      <el-table-column
+        prop="ip_addr"
+        label="IP地址"
+        align="center"
+      />
+      <el-table-column
+        prop="netmask"
+        label="掩码"
+        align="center"
+      />
+      <el-table-column
+        prop="device.name"
+        label="绑定网卡"
+        align="center"
+      />
+      <el-table-column
+        prop=""
+        label="操作"
+        width="215"
+        align="center"
+      >
+        <template slot-scope="scope">
+          <el-button type="text" size="small" @click="editClick(scope.row)">修改</el-button>
+          <el-button type="text" size="small" @click="deleteClick(scope.row)">删除</el-button>
+        </template>
+      </el-table-column>
     </el-table>
-    <div class="text-center" v-show="total_num>=10">
-        <el-pagination
-                background
-                @current-change="paginationChange"
-                layout="total, prev, pager, next, jumper"
-                :current-page.sync="page"
-                :total="total_num">
-        </el-pagination>
+    <div v-show="total_num>=10" class="text-center">
+      <el-pagination
+        background
+        layout="total, prev, pager, next, jumper"
+        :current-page.sync="page"
+        :total="total_num"
+        @current-change="paginationChange"
+      />
     </div>
   </div>
 </template>
@@ -141,6 +142,17 @@ export default {
         ]
       }
     }
+  },
+  watch: {
+    state() {
+      this.fetchData()
+      getNetworkDeviceList({ page_size: 0 }).then(res => {
+        this.deviceList = res
+      })
+    }
+  },
+  created() {
+    this.state = 1
   },
   methods: {
     fetchData() {
@@ -228,17 +240,6 @@ export default {
           message: '操作失败',
           type: 'error'
         })
-      })
-    }
-  },
-  created() {
-    this.state = 1
-  },
-  watch: {
-    state() {
-      this.fetchData()
-      getNetworkDeviceList({ page_size: 0 }).then(res => {
-        this.deviceList = res
       })
     }
   }

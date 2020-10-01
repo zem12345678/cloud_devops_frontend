@@ -8,10 +8,8 @@
         </el-input>
       </el-col>
     </div>
-   
     <!--表格-->
     <task-list :value="tasks" @edit="handleEdit" @detail="handleDetail"></task-list>
-   
     <!--模态窗-->
     <el-dialog
       title="任务详情"
@@ -19,19 +17,16 @@
       width="70%">
       <div><pre>{{exce_result}}</pre></div>
     </el-dialog>
-
-
- 
     <!--分页-->
     <center>
-    <el-pagination
-      background
-      layout="total, prev, pager, next, jumper"
-      :page-size="pagesize"
-      :total="totalNum"
-      @current-change="handleCurrentChange">
-    </el-pagination>
-    </center> 
+      <el-pagination
+        background
+        layout="total, prev, pager, next, jumper"
+        :page-size="pagesize"
+        :total="totalNum"
+        @current-change="handleCurrentChange">
+      </el-pagination>
+    </center>
   </div>
 </template>
 
@@ -49,13 +44,13 @@ export default {
     return {
       dialogVisibleForTask: false,
       tasks: [],
-      exce_result:'',
+      exce_result: '',
       totalNum: 0,
       pagesize: 10,
       params: {
         page: 1,
-        search: '',
-      } 
+        search: ''
+      }
     }
   },
 
@@ -83,9 +78,10 @@ export default {
     },
 
     handleEdit(value) {
-      const { id, ...params } = value  
-      const data = {'status':'Y'}
-      updateTask(id,data).then(res => {
+      // eslint-disable-next-line no-unused-vars
+      const { id, ... params } = value
+      const data = { 'status': 'Y' }
+      updateTask(id, data).then(res => {
         this.$message({
           message: '执行成功',
           type: 'success'
@@ -100,7 +96,7 @@ export default {
       detailTask(id).then(
         res => {
           this.exce_result = res.detail_result
-          console.log(this.exce_result)		  
+          console.log(this.exce_result)
         })
     }
   }

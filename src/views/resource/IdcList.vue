@@ -1,10 +1,10 @@
 <template>
   <div class="user-list-container">
     <el-row :gutter="24">
-      <el-col :span="12" >
-         <el-input placeholder="搜索" v-model="search_key" @keyup.enter.native="searchClick">
-              <el-button slot="append" icon="el-icon-search" @click="searchClick"></el-button>
-          </el-input>
+      <el-col :span="12">
+        <el-input v-model="search_key" placeholder="搜索" @keyup.enter.native="searchClick">
+          <el-button slot="append" icon="el-icon-search" @click="searchClick" />
+        </el-input>
       </el-col>
       <el-col :span="6" :offset="6" class="text-right">
         <el-button type="primary" @click="addClick">添加</el-button>
@@ -12,116 +12,117 @@
     </el-row>
     <!-- 添加IDC开始 -->
     <el-dialog title="添加IDC" :visible.sync="isFormVisible">
-        <el-form ref="addForm" :model="addForm" label-width="80px" :rules="addRule">
-            <el-form-item label="IDC名称" prop="name">
-                <el-input v-model="addForm.name" maxlength="15" placeholder="请输入IDC名称"></el-input>
-            </el-form-item>
-            <el-form-item label="字母简称" prop="letter">
-                <el-input v-model="addForm.letter" maxlength="10" placeholder="请输入字母简称"></el-input>
-            </el-form-item>
-            <el-form-item label="联系电话" prop="tel">
-                <el-input v-model="addForm.tel" maxlength="15" placeholder="请输入联系电话"></el-input>
-            </el-form-item>
-            <el-form-item label="邮箱" prop="mail">
-                <el-input v-model="addForm.mail" maxlength="20"  placeholder="请输入邮箱"></el-input>
-            </el-form-item>
-            <el-form-item label="地址" prop="address">
-                <el-input v-model="addForm.address" maxlength="30" placeholder="请输入地址"></el-input>
-            </el-form-item>
-            <el-form-item label="备注" maxlength="50" prop="remark">
-                <el-input v-model="addForm.remark" placeholder="备注"></el-input>
-            </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-            <el-button @click="isFormVisible = false">取 消</el-button>
-            <el-button type="primary" @click="submitForm">确 定</el-button>
-        </div>
+      <el-form ref="addForm" :model="addForm" label-width="80px" :rules="addRule">
+        <el-form-item label="IDC名称" prop="name">
+          <el-input v-model="addForm.name" maxlength="15" placeholder="请输入IDC名称" />
+        </el-form-item>
+        <el-form-item label="字母简称" prop="letter">
+          <el-input v-model="addForm.letter" maxlength="10" placeholder="请输入字母简称" />
+        </el-form-item>
+        <el-form-item label="联系电话" prop="tel">
+          <el-input v-model="addForm.tel" maxlength="15" placeholder="请输入联系电话" />
+        </el-form-item>
+        <el-form-item label="邮箱" prop="mail">
+          <el-input v-model="addForm.mail" maxlength="20" placeholder="请输入邮箱" />
+        </el-form-item>
+        <el-form-item label="地址" prop="address">
+          <el-input v-model="addForm.address" maxlength="30" placeholder="请输入地址" />
+        </el-form-item>
+        <el-form-item label="备注" maxlength="50" prop="remark">
+          <el-input v-model="addForm.remark" placeholder="备注" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="isFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submitForm">确 定</el-button>
+      </div>
     </el-dialog>
     <!-- /结束 -->
     <!-- 修改IDC开始 -->
     <el-dialog title="修改IDC" :visible.sync="isEditFormVisible">
-        <el-form ref="editForm" :model="editForm" label-width="80px" :rules="addRule">
-            <el-form-item label="IDC名称" prop="name">
-                <el-input v-model="editForm.name" maxlength="15" placeholder="请输入IDC名称"></el-input>
-            </el-form-item>
-            <el-form-item label="字母简称" prop="letter">
-                <el-input v-model="editForm.letter" maxlength="10" placeholder="请输入字母简称"></el-input>
-            </el-form-item>
-            <el-form-item label="联系电话" prop="tel">
-                <el-input v-model="editForm.tel" maxlength="15" placeholder="请输入联系电话"></el-input>
-            </el-form-item>
-            <el-form-item label="邮箱" prop="mail">
-                <el-input v-model="editForm.mail" maxlength="20" placeholder="请输入邮箱"></el-input>
-            </el-form-item>
-            <el-form-item label="地址" maxlength="30" prop="address">
-                <el-input v-model="editForm.address" placeholder="请输入地址"></el-input>
-            </el-form-item>
-            <el-form-item label="备注" maxlength="50" prop="remark">
-                <el-input v-model="editForm.remark" placeholder="备注"></el-input>
-            </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-            <el-button @click="isEditFormVisible = false">取 消</el-button>
-            <el-button type="primary" @click="submitEditForm">确 定</el-button>
-        </div>
+      <el-form ref="editForm" :model="editForm" label-width="80px" :rules="addRule">
+        <el-form-item label="IDC名称" prop="name">
+          <el-input v-model="editForm.name" maxlength="15" placeholder="请输入IDC名称" />
+        </el-form-item>
+        <el-form-item label="字母简称" prop="letter">
+          <el-input v-model="editForm.letter" maxlength="10" placeholder="请输入字母简称" />
+        </el-form-item>
+        <el-form-item label="联系电话" prop="tel">
+          <el-input v-model="editForm.tel" maxlength="15" placeholder="请输入联系电话" />
+        </el-form-item>
+        <el-form-item label="邮箱" prop="mail">
+          <el-input v-model="editForm.mail" maxlength="20" placeholder="请输入邮箱" />
+        </el-form-item>
+        <el-form-item label="地址" maxlength="30" prop="address">
+          <el-input v-model="editForm.address" placeholder="请输入地址" />
+        </el-form-item>
+        <el-form-item label="备注" maxlength="50" prop="remark">
+          <el-input v-model="editForm.remark" placeholder="备注" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="isEditFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submitEditForm">确 定</el-button>
+      </div>
     </el-dialog>
     <!-- /结束 -->
     <el-table
-            class="table"
-            v-loading="loading"
-            element-loading-text="拼命加载中"
-            :data="dataList"
-            border
-            >
-        <el-table-column
-                prop="name"
-                label="IDC名称"
-                align="center">
-        </el-table-column>
-        <el-table-column
-                prop="letter"
-                label="字母简称"
-                align="center">
-        </el-table-column>
-        <el-table-column
-                prop="tel"
-                label="联系电话"
-                align="center">
-        </el-table-column>
-        <el-table-column
-                prop="mail"
-                label="邮箱"
-                align="center">
-        </el-table-column>
-        <el-table-column
-                prop="address"
-                label="地址"
-                align="center">
-        </el-table-column>
-        <el-table-column
-                prop="remark"
-                label="备注"
-                align="center">
-        </el-table-column>
-        <el-table-column
-                prop=""
-                label="操作"
-                width="215"
-                align="center">
-            <template slot-scope="scope">
-              <el-button type="text" size="small"  @click="editClick(scope.row)">修改</el-button>
-              <el-button type="text" size="small"  @click="deleteClick(scope.row)">删除</el-button>
-            </template>
-        </el-table-column>
+      v-loading="loading"
+      class="table"
+      element-loading-text="拼命加载中"
+      :data="dataList"
+      border
+    >
+      <el-table-column
+        prop="name"
+        label="IDC名称"
+        align="center"
+      />
+      <el-table-column
+        prop="letter"
+        label="字母简称"
+        align="center"
+      />
+      <el-table-column
+        prop="tel"
+        label="联系电话"
+        align="center"
+      />
+      <el-table-column
+        prop="mail"
+        label="邮箱"
+        align="center"
+      />
+      <el-table-column
+        prop="address"
+        label="地址"
+        align="center"
+      />
+      <el-table-column
+        prop="remark"
+        label="备注"
+        align="center"
+      />
+      <el-table-column
+        prop=""
+        label="操作"
+        width="215"
+        align="center"
+      >
+        <template slot-scope="scope">
+          <el-button type="text" size="small" @click="editClick(scope.row)">修改</el-button>
+          <el-button type="text" size="small" @click="deleteClick(scope.row)">删除</el-button>
+        </template>
+      </el-table-column>
     </el-table>
-    <div class="text-center" v-show="total_num>=10">
-        <el-pagination
-                background
-                @current-change="paginationChange"
-                layout="total, prev, pager, next, jumper"
-                :current-page.sync="page"
-                :total="total_num">
-        </el-pagination>
+    <div v-show="total_num>=10" class="text-center">
+      <el-pagination
+        background
+        layout="total, prev, pager, next, jumper"
+        :current-page.sync="page"
+        :total="total_num"
+        @current-change="paginationChange"
+      />
     </div>
   </div>
 </template>
@@ -159,6 +160,14 @@ export default {
         ]
       }
     }
+  },
+  watch: {
+    state() {
+      this.fetchData()
+    }
+  },
+  created() {
+    this.state = 1
   },
   methods: {
     fetchData() {
@@ -243,14 +252,6 @@ export default {
           type: 'error'
         })
       })
-    }
-  },
-  created() {
-    this.state = 1
-  },
-  watch: {
-    state() {
-      this.fetchData()
     }
   }
 }

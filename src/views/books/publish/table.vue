@@ -32,6 +32,7 @@
         <template slot-scope="scope">
           <el-button
             size="mini"
+            type="success"
             @click="handleEdit(scope.row)"
           >编辑</el-button>
 

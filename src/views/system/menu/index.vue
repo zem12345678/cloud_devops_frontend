@@ -47,7 +47,7 @@
     </tree-table>
     <el-pagination
       :total="total"
-      :page-sizes="[100, 200, 300, 400]"
+      :page-sizes="[50, 100, 150, 200]"
       style="margin-top: 8px;"
       layout="total, prev, pager, next, sizes"
       @size-change="sizeChange"
@@ -117,7 +117,7 @@ export default {
     },
     getMenus() {
       getMenuTree().then(res => {
-        this.menus = res.detail
+        this.menus = res.data
       })
     }
   }

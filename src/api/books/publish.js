@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 获取出版社列表
 export function getPublishList(params) {
   return request({
-    url: '/books/publish/',
+    url: '/api/books/publish/',
     method: 'get',
     params
   })
@@ -12,7 +12,7 @@ export function getPublishList(params) {
 // 创建出版社
 export function createPublish(data) {
   return request({
-    url: '/books/publish/',
+    url: '/api/books/publish/',
     method: 'post',
     data
   })
@@ -21,7 +21,7 @@ export function createPublish(data) {
 // 修改出版社
 export function updatePublish(id, data) {
   return request({
-    url: '/books/publish/' + id + '/',
+    url: '/api/books/publish/' + id + '/',
     method: 'put',
     data
   })
@@ -30,7 +30,7 @@ export function updatePublish(id, data) {
 // 删除出版社
 export function deletePublish(id) {
   return request({
-    url: '/books/publish/' + id + '/',
+    url: '/api/books/publish/' + id + '/',
     method: 'delete'
   })
 }

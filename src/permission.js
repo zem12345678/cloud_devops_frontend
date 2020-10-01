@@ -5,6 +5,8 @@ import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import { getToken } from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
+import { buildMenus } from '@/api/user'
+import { filterAsyncRoutes } from './store/modules/permission'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
@@ -37,14 +39,22 @@ router.beforeEach(async(to, from, next) => {
           const { roles } = await store.dispatch('user/getInfo')
 
           // generate accessible routes map based on roles
-          const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
+          // const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
 
           // dynamically add accessible routes
-          router.addRoutes(accessRoutes)
+          buildMenus().then(res => {
+            const asyncRouter = filterAsyncRoutes(res.data, roles)
+            // asyncRouter.push({ path: '*', redirect: '/404', hidden: true })
+            store.dispatch('permission/generateRoutes', asyncRouter, roles).then(() => { // 存储路由
+              router.addRoutes(asyncRouter) // 动态添加可访问路由表
+              next({ ...to, replace: true })// hack方法 确保addRoutes已完成
+            })
+          })
+          // router.addRoutes(accessRoutes)
 
           // hack method to ensure that addRoutes is complete
           // set the replace: true, so the navigation will not leave a history record
-          next({ ...to, replace: true })
+          // next({ ...to, replace: true })
         } catch (error) {
           // remove token and go to login page to re-login
           await store.dispatch('user/resetToken')

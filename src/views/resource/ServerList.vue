@@ -8,8 +8,7 @@
             :key="index"
             :label="item.idc_name"
             :value="item.id"
-          >
-          </el-option>
+          />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -19,8 +18,7 @@
             :key="index"
             :label="item.name"
             :value="item.id"
-          >
-          </el-option>
+          />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -30,8 +28,7 @@
             :key="index"
             :label="item.service_name"
             :value="item.id"
-          >
-          </el-option>
+          />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -41,26 +38,26 @@
             :key="index"
             :label="item.service_name"
             :value="item.id"
-          >
-          </el-option>
+          />
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-input v-model="searchForm.hostname" placeholder="请输入主机名或IP地址" style="width: 180px"></el-input>
+        <el-input v-model="searchForm.hostname" placeholder="请输入主机名或IP地址" style="width: 180px" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="searchClick()">搜索</el-button>
       </el-form-item>
     </el-form>
     <el-table
-          v-loading="loading"
-          element-loading-text="拼命加载中"
-          :data="serverList"
-          border
-          class="table">
+      v-loading="loading"
+      element-loading-text="拼命加载中"
+      :data="serverList"
+      border
+      class="table"
+    >
       <el-table-column type="expand">
         <template slot-scope="props">
-          <el-form  label-position="left" inline class="table-form-expand">
+          <el-form label-position="left" inline class="table-form-expand">
             <el-form-item label="制造商：">
               <span>{{ props.row.manufacturer.vendor_name }}</span>
             </el-form-item>
@@ -96,12 +93,12 @@
             </el-form-item>
             <el-form-item label="网卡列表">
               <span>
-                  <div v-for="i in cardList">
-                    <span v-if=" i.host.id ==  props.row.id "> {{i.name + ' [' + i.mac+']'}}</span>
-                      <div v-for="j in ipList">
-                        <span v-if="i.host.id ==  props.row.id && i.id == j.device.id"> |- {{j.ip_addr}}</span>
-                      </div>
+                <div v-for="i in cardList">
+                  <span v-if=" i.host.id == props.row.id "> {{ i.name + ' [' + i.mac+']' }}</span>
+                  <div v-for="j in ipList">
+                    <span v-if="i.host.id == props.row.id && i.id == j.device.id"> |- {{ j.ip_addr }}</span>
                   </div>
+                </div>
               </span>
             </el-form-item>
           </el-form>
@@ -110,83 +107,83 @@
       <el-table-column
         prop="idc.name"
         label="机房"
-        align="center">
-      </el-table-column>
+        align="center"
+      />
       <el-table-column
-            prop="service.name"
-            label="业务线"
-            align="center">
-      </el-table-column>
+        prop="service.name"
+        label="业务线"
+        align="center"
+      />
       <el-table-column
-              prop="server_purpose.name"
-              label="产品线"
-              align="center">
-      </el-table-column>
+        prop="server_purpose.name"
+        label="产品线"
+        align="center"
+      />
       <el-table-column
-              prop="hostname"
-              label="主机名"
-              align="center">
-      </el-table-column>
+        prop="hostname"
+        label="主机名"
+        align="center"
+      />
       <el-table-column
-              prop="manage_ip"
-              label="管理IP"
-              align="center">
-      </el-table-column>
+        prop="manage_ip"
+        label="管理IP"
+        align="center"
+      />
       <el-table-column
-              prop="device_type.name"
-              label="机型类型"
-              align="center">
-      </el-table-column>
+        prop="device_type.name"
+        label="机型类型"
+        align="center"
+      />
       <el-table-column
-              prop="status"
-              label="状态"
-              width="60"
-              align="center">
-      </el-table-column>
+        prop="status"
+        label="状态"
+        width="60"
+        align="center"
+      />
       <el-table-column
-              prop="last_check"
-              label="LAST CHECK"
-              width="155"
-              align="center">
-      </el-table-column>
+        prop="last_check"
+        label="LAST CHECK"
+        width="155"
+        align="center"
+      />
       <el-table-column
-              prop=""
-              label="操作"
-              width="100"
-              align="center">
-          <template slot-scope="scope">
-            <el-button type="text" size="small" @click="editClick(scope.row)">修改</el-button>
-            <el-button type="text" size="small" @click="deleteClick(scope.row)">删除</el-button>
-          </template>
+        prop=""
+        label="操作"
+        width="100"
+        align="center"
+      >
+        <template slot-scope="scope">
+          <el-button type="text" size="small" @click="editClick(scope.row)">修改</el-button>
+          <el-button type="text" size="small" @click="deleteClick(scope.row)">删除</el-button>
+        </template>
       </el-table-column>
     </el-table>
-    <div class="text-center" v-show="total_num>=10">
+    <div v-show="total_num>=10" class="text-center">
       <el-pagination
-              background
-              @current-change="paginationChange"
-              layout="total, prev, pager, next, jumper"
-              :current-page.sync="page"
-              :total="total_num">
-      </el-pagination>
+        background
+        layout="total, prev, pager, next, jumper"
+        :current-page.sync="page"
+        :total="total_num"
+        @current-change="paginationChange"
+      />
     </div>
     <el-dialog title="修改服务器" :visible.sync="changeServerVisible">
       <el-form ref="changeServerForm" :model="changeServerForm" label-width="70px" :rules="changeServerFormRules">
         <el-form-item label="主机名称" prop="hostname">
-            <el-input v-model="changeServerForm.hostname" :disabled="true" placeholder="请输入主机名称"></el-input>
+          <el-input v-model="changeServerForm.hostname" :disabled="true" placeholder="请输入主机名称" />
         </el-form-item>
         <el-form-item label="管理IP" prop="manage_ip">
-            <el-input v-model="changeServerForm.manage_ip" :disabled="true" placeholder="请输入IP地址"></el-input>
+          <el-input v-model="changeServerForm.manage_ip" :disabled="true" placeholder="请输入IP地址" />
         </el-form-item>
         <el-form-item label="状态" prop="status">
-            <el-select v-model="changeServerForm.status">
-              <el-option
-                v-for="(item, index) in statusList"
-                :key="index"
-                :label="item"
-                :value="item"
-              >
-              </el-option>
-            </el-select>
+          <el-select v-model="changeServerForm.status">
+            <el-option
+              v-for="(item, index) in statusList"
+              :key="index"
+              :label="item"
+              :value="item"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item label="机房" prop="idc">
           <el-select v-model="changeServerForm.idc" @change="changeIdc">
@@ -195,8 +192,7 @@
               :key="index"
               :label="item.idc_name"
               :value="item.id"
-            >
-            </el-option>
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="机柜" prop="cabinet">
@@ -206,8 +202,7 @@
               :key="index"
               :label="item.name"
               :value="item.id"
-            >
-            </el-option>
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="业务线" prop="service">
@@ -217,8 +212,7 @@
               :key="index"
               :label="item.service_name"
               :value="item.id"
-            >
-            </el-option>
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="产品线" prop="server_purpose">
@@ -228,17 +222,16 @@
               :key="index"
               :label="item.service_name"
               :value="item.id"
-            >
-            </el-option>
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="备注">
-            <el-input v-model="changeServerForm.remark" placeholder="请输入备注"></el-input>
+          <el-input v-model="changeServerForm.remark" placeholder="请输入备注" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-          <el-button @click="changeServerVisible = false">取 消</el-button>
-          <el-button type="primary" @click="submitchangeServerClick">确 定</el-button>
+        <el-button @click="changeServerVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submitchangeServerClick">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -471,6 +464,4 @@ export default {
   }
 }
 </style>
-
-
 

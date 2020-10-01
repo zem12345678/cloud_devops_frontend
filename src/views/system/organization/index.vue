@@ -23,7 +23,7 @@
     </tree-table>
     <el-pagination
       :total="total"
-      :page-sizes="[100, 200, 300, 400]"
+      :page-sizes="[50, 100, 150, 200]"
       style="margin-top: 8px;"
       layout="total, prev, pager, next, sizes"
       @size-change="sizeChange"
@@ -98,7 +98,7 @@ export default {
     },
     getOrganizations() {
       getOrganizationTree().then(res => {
-        this.organizations = res.detail
+        this.organizations = res.data
       })
     }
   }

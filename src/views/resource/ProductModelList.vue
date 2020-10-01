@@ -1,10 +1,10 @@
 <template>
   <div class="user-list-container">
     <el-row :gutter="24">
-      <el-col :span="12" >
-         <el-input placeholder="搜索" v-model="search_key" @keyup.enter.native="searchClick">
-              <el-button slot="append" icon="el-icon-search" @click="searchClick"></el-button>
-          </el-input>
+      <el-col :span="12">
+        <el-input v-model="search_key" placeholder="搜索" @keyup.enter.native="searchClick">
+          <el-button slot="append" icon="el-icon-search" @click="searchClick" />
+        </el-input>
       </el-col>
       <el-col :span="6" :offset="6" class="text-right">
         <el-button type="primary" @click="addManu">添加</el-button>
@@ -12,87 +12,88 @@
     </el-row>
     <!-- 添加机器型号开始 -->
     <el-dialog title="添加机器型号" :visible.sync="isFormVisible">
-        <el-form ref="addForm" :model="addForm" label-width="70px" :rules="addRule">
-            <el-form-item label="型号名称" prop="model_name">
-                <el-input v-model="addForm.model_name" placeholder="请输入型号名称"></el-input>
-            </el-form-item>
-            <el-form-item label="所属于厂商" prop="vendor">
-              <el-select class="select" v-model="addForm.vendor" placeholder="选择厂商">
-                <el-option
-                  v-for="(item, index) in ManuList"
-                  :key="index"
-                  :label="item.vendor_name"
-                  :value="item.id">
-                </el-option>
-              </el-select>
-            </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-            <el-button @click="isFormVisible = false">取 消</el-button>
-            <el-button type="primary" @click="submitForm">确 定</el-button>
-        </div>
+      <el-form ref="addForm" :model="addForm" label-width="70px" :rules="addRule">
+        <el-form-item label="型号名称" prop="model_name">
+          <el-input v-model="addForm.model_name" placeholder="请输入型号名称" />
+        </el-form-item>
+        <el-form-item label="所属于厂商" prop="vendor">
+          <el-select v-model="addForm.vendor" class="select" placeholder="选择厂商">
+            <el-option
+              v-for="(item, index) in ManuList"
+              :key="index"
+              :label="item.vendor_name"
+              :value="item.id"
+            />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="isFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submitForm">确 定</el-button>
+      </div>
     </el-dialog>
     <!-- /结束 -->
     <!-- 修改机器型号开始 -->
     <el-dialog title="修改机器型号" :visible.sync="isEditFormVisible">
-        <el-form ref="editForm" :model="editForm" label-width="70px" :rules="addRule">
-            <el-form-item label="型号名称" prop="model_name">
-                <el-input v-model="editForm.model_name" placeholder="请输型号名称"></el-input>
-            </el-form-item>
-            <el-form-item label="所属于厂商" prop="vendor">
-              <el-select class="select" v-model="editForm.vendor" placeholder="选择厂商">
-                <el-option
-                  v-for="(item, index) in ManuList"
-                  :key="index"
-                  :label="item.vendor_name"
-                  :value="item.id">
-                </el-option>
-              </el-select>
-            </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-            <el-button @click="isEditFormVisible = false">取 消</el-button>
-            <el-button type="primary" @click="submitEditForm">确 定</el-button>
-        </div>
+      <el-form ref="editForm" :model="editForm" label-width="70px" :rules="addRule">
+        <el-form-item label="型号名称" prop="model_name">
+          <el-input v-model="editForm.model_name" placeholder="请输型号名称" />
+        </el-form-item>
+        <el-form-item label="所属于厂商" prop="vendor">
+          <el-select v-model="editForm.vendor" class="select" placeholder="选择厂商">
+            <el-option
+              v-for="(item, index) in ManuList"
+              :key="index"
+              :label="item.vendor_name"
+              :value="item.id"
+            />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="isEditFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submitEditForm">确 定</el-button>
+      </div>
     </el-dialog>
     <!-- /结束 -->
     <el-table
-            class="table"
-            v-loading="loading"
-            element-loading-text="拼命加载中"
-            :data="manufacturerList"
-            border
-            >
-        <el-table-column
-                prop="model_name"
-                label="型号名称"
-                align="center">
-        </el-table-column>
-        <el-table-column
-                prop="vendor.name"
-                label="所属于厂商"
-                width=""
-                align="center">
-        </el-table-column>
-        <el-table-column
-                prop=""
-                label="操作"
-                width="215"
-                align="center">
-            <template slot-scope="scope">
-              <el-button type="text" size="small"  @click="editClick(scope.row)">修改</el-button>
-              <el-button type="text" size="small"  @click="deleteClick(scope.row)">删除</el-button>
-            </template>
-        </el-table-column>
+      v-loading="loading"
+      class="table"
+      element-loading-text="拼命加载中"
+      :data="manufacturerList"
+      border
+    >
+      <el-table-column
+        prop="model_name"
+        label="型号名称"
+        align="center"
+      />
+      <el-table-column
+        prop="vendor.name"
+        label="所属于厂商"
+        width=""
+        align="center"
+      />
+      <el-table-column
+        prop=""
+        label="操作"
+        width="215"
+        align="center"
+      >
+        <template slot-scope="scope">
+          <el-button type="text" size="small" @click="editClick(scope.row)">修改</el-button>
+          <el-button type="text" size="small" @click="deleteClick(scope.row)">删除</el-button>
+        </template>
+      </el-table-column>
     </el-table>
-    <div class="text-center" v-show="total_num>=10">
-        <el-pagination
-                background
-                @current-change="paginationChange"
-                layout="total, prev, pager, next, jumper"
-                :current-page.sync="page"
-                :total="total_num">
-        </el-pagination>
+    <div v-show="total_num>=10" class="text-center">
+      <el-pagination
+        background
+        layout="total, prev, pager, next, jumper"
+        :current-page.sync="page"
+        :total="total_num"
+        @current-change="paginationChange"
+      />
     </div>
   </div>
 </template>
@@ -127,6 +128,17 @@ export default {
       },
       ManuList: []
     }
+  },
+  watch: {
+    state() {
+      this.fetchData()
+      getManufacturerList({ page_size: 0 }).then(res => {
+        this.ManuList = res.data
+      })
+    }
+  },
+  created() {
+    this.state = 1
   },
   methods: {
     fetchData() {
@@ -213,17 +225,6 @@ export default {
           message: '操作失败',
           type: 'error'
         })
-      })
-    }
-  },
-  created() {
-    this.state = 1
-  },
-  watch: {
-    state() {
-      this.fetchData()
-      getManufacturerList({ page_size: 0 }).then(res => {
-        this.ManuList = res
       })
     }
   }

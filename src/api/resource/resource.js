@@ -2,14 +2,14 @@ import request from '@/utils/request'
 
 export function getProductTree() {
   return request({
-    url: '/productmanage/',
+    url: '/api/productmanage/',
     method: 'get'
   })
 }
 
 export function getProductLevel(params) {
   return request({
-    url: '/products/',
+    url: '/api/products/',
     method: 'get',
     params
   })
@@ -17,7 +17,7 @@ export function getProductLevel(params) {
 
 export function addProduct(params) {
   return request({
-    url: '/products/',
+    url: '/api/products/',
     method: 'post',
     data: params
   })
@@ -25,28 +25,28 @@ export function addProduct(params) {
 
 export function getProductLevelInfo(id) {
   return request({
-    url: '/products/' + id + '/',
+    url: '/api/products/' + id + '/',
     method: 'get'
   })
 }
 
 export function updateProduct(id, params) {
   return request({
-    url: '/products/' + id + '/',
+    url: '/api/products/' + id + '/',
     method: 'put',
     data: params
   })
 }
 export function deleteProductLevelInfo(id) {
   return request({
-    url: '/products/' + id + '/',
+    url: '/api/products/' + id + '/',
     method: 'delete'
   })
 }
 
 export function getServerList(params) {
   return request({
-    url: '/servers/',
+    url: '/api/servers/',
     method: 'get',
     params
   })
@@ -54,21 +54,21 @@ export function getServerList(params) {
 
 export function countServer() {
   return request({
-    url: '/ServerCount/',
+    url: '/api/ServerCount/',
     method: 'get'
   })
 }
 
 export function deleteServer(id) {
   return request({
-    url: '/servers/' + id + '/',
+    url: '/api/servers/' + id + '/',
     method: 'delete'
   })
 }
 
 export function getIdcsList(params) {
   return request({
-    url: '/idcs/',
+    url: '/api/idcs/',
     method: 'get',
     params
   })
@@ -76,7 +76,7 @@ export function getIdcsList(params) {
 
 export function updateServer(id, data) {
   return request({
-    url: '/servers/' + id + '/',
+    url: '/api/servers/' + id + '/',
     method: 'PATCH',
     data
   })
@@ -87,7 +87,7 @@ export function updateServer(id, data) {
  */
 export function getManufacturerList(params) {
   return request({
-    url: '/manufacturer/',
+    url: '/api/manufacturer/',
     method: 'get',
     params
   })
@@ -95,7 +95,7 @@ export function getManufacturerList(params) {
 
 export function addManufacturer(data) {
   return request({
-    url: '/manufacturer/',
+    url: '/api/manufacturer/',
     method: 'post',
     data
   })
@@ -103,7 +103,7 @@ export function addManufacturer(data) {
 
 export function updateManufacturer(id, data) {
   return request({
-    url: '/manufacturer/' + id + '/',
+    url: '/api/manufacturer/' + id + '/',
     method: 'put',
     data
   })
@@ -111,7 +111,7 @@ export function updateManufacturer(id, data) {
 
 export function deleteManufacturer(id) {
   return request({
-    url: '/manufacturer/' + id + '/',
+    url: '/api/manufacturer/' + id + '/',
     method: 'delete'
   })
 }
@@ -121,7 +121,7 @@ export function deleteManufacturer(id) {
  */
 export function getProductModelList(params) {
   return request({
-    url: '/product_model/',
+    url: '/api/product_model/',
     method: 'get',
     params
   })
@@ -129,7 +129,7 @@ export function getProductModelList(params) {
 
 export function addProductModel(data) {
   return request({
-    url: '/product_model/',
+    url: '/api/product_model/',
     method: 'post',
     data
   })
@@ -137,7 +137,7 @@ export function addProductModel(data) {
 
 export function updateProductModel(id, data) {
   return request({
-    url: '/product_model/' + id + '/',
+    url: '/api/product_model/' + id + '/',
     method: 'put',
     data
   })
@@ -145,7 +145,7 @@ export function updateProductModel(id, data) {
 
 export function deleteProductModel(id) {
   return request({
-    url: '/product_model/' + id + '/',
+    url: '/api/product_model/' + id + '/',
     method: 'delete'
   })
 }
@@ -155,7 +155,7 @@ export function deleteProductModel(id) {
  */
 export function getIdcList(params) {
   return request({
-    url: '/idcs/',
+    url: '/api/idcs/',
     method: 'get',
     params
   })
@@ -163,7 +163,7 @@ export function getIdcList(params) {
 
 export function addIdc(data) {
   return request({
-    url: '/idcs/',
+    url: '/api/idcs/',
     method: 'post',
     data
   })
@@ -171,7 +171,7 @@ export function addIdc(data) {
 
 export function updateIdc(id, data) {
   return request({
-    url: '/idcs/' + id + '/',
+    url: '/api/idcs/' + id + '/',
     method: 'put',
     data
   })
@@ -179,7 +179,7 @@ export function updateIdc(id, data) {
 
 export function deleteIdc(id) {
   return request({
-    url: '/idcs/' + id + '/',
+    url: '/api/idcs/' + id + '/',
     method: 'delete'
   })
 }
@@ -189,7 +189,7 @@ export function deleteIdc(id) {
  */
 export function getCabinetList(params) {
   return request({
-    url: '/cabinet/',
+    url: '/api/cabinet/',
     method: 'get',
     params
   })
@@ -197,7 +197,7 @@ export function getCabinetList(params) {
 
 export function addCabinet(data) {
   return request({
-    url: '/cabinet/',
+    url: '/api/cabinet/',
     method: 'post',
     data
   })
@@ -205,7 +205,7 @@ export function addCabinet(data) {
 
 export function updateCabinet(id, data) {
   return request({
-    url: '/cabinet/' + id + '/',
+    url: '/api/cabinet/' + id + '/',
     method: 'put',
     data
   })
@@ -213,7 +213,7 @@ export function updateCabinet(id, data) {
 
 export function deleteCabinet(id) {
   return request({
-    url: '/cabinet/' + id + '/',
+    url: '/api/cabinet/' + id + '/',
     method: 'delete'
   })
 }
@@ -223,7 +223,7 @@ export function deleteCabinet(id) {
  */
 export function getNetworkDeviceList(params) {
   return request({
-    url: '/network_device/',
+    url: '/api/network_device/',
     method: 'get',
     params
   })
@@ -231,7 +231,7 @@ export function getNetworkDeviceList(params) {
 
 export function addNetworkDevice(data) {
   return request({
-    url: '/network_device/',
+    url: '/api/network_device/',
     method: 'post',
     data
   })
@@ -239,7 +239,7 @@ export function addNetworkDevice(data) {
 
 export function updateNetworkDevice(id, data) {
   return request({
-    url: '/network_device/' + id + '/',
+    url: '/api/network_device/' + id + '/',
     method: 'put',
     data
   })
@@ -247,7 +247,7 @@ export function updateNetworkDevice(id, data) {
 
 export function deleteNetworkDevice(id) {
   return request({
-    url: '/network_device/' + id + '/',
+    url: '/api/network_device/' + id + '/',
     method: 'delete'
   })
 }
@@ -257,7 +257,7 @@ export function deleteNetworkDevice(id) {
  */
 export function getIpList(params) {
   return request({
-    url: '/ip/',
+    url: '/api/ip/',
     method: 'get',
     params
   })
@@ -265,7 +265,7 @@ export function getIpList(params) {
 
 export function addIP(data) {
   return request({
-    url: '/ip/',
+    url: '/api/ip/',
     method: 'post',
     data
   })
@@ -273,7 +273,7 @@ export function addIP(data) {
 
 export function updateIP(id, data) {
   return request({
-    url: '/ip/' + id + '/',
+    url: '/api/ip/' + id + '/',
     method: 'put',
     data
   })
@@ -281,7 +281,7 @@ export function updateIP(id, data) {
 
 export function deleteIP(id) {
   return request({
-    url: '/ip/' + id + '/',
+    url: '/api/ip/' + id + '/',
     method: 'delete'
   })
 }

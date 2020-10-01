@@ -1,5 +1,5 @@
 import { asyncRoutes, constantRoutes } from '@/router'
-
+import Layout from '@/layout'
 /**
  * Use meta.role to determine if the current user has permission
  * @param roles
@@ -22,6 +22,14 @@ export function filterAsyncRoutes(routes, roles) {
   const res = []
 
   routes.forEach(route => {
+    if (route.component) {
+      if (route.component === 'Layout') {
+        route.component = Layout
+      } else {
+        const component = route.component
+        route.component = loadView(component)
+      }
+    }
     const tmp = { ...route }
     if (hasPermission(roles, tmp)) {
       if (tmp.children) {
@@ -47,18 +55,22 @@ const mutations = {
 }
 
 const actions = {
-  generateRoutes({ commit }, roles) {
+  generateRoutes({ commit }, accessedRoutes, roles) {
     return new Promise(resolve => {
-      let accessedRoutes
-      if (roles.includes('admin')) {
-        accessedRoutes = asyncRoutes || []
-      } else {
-        accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
-      }
+      // let accessedRoutes
+      // if (roles.includes('admin')) {
+      //   accessedRoutes = asyncRoutes || []
+      // } else {
+      //   accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
+      // }
       commit('SET_ROUTES', accessedRoutes)
       resolve(accessedRoutes)
     })
   }
+}
+
+export const loadView = (view) => { // 路由懒加载
+  return resolve => require([`@/views/${view}`], resolve)
 }
 
 export default {

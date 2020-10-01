@@ -1,124 +1,127 @@
 <template>
-    <div class="user-list-container">
-      <el-row :gutter="24">
-        <el-col :span="6" >
-          <el-row :gutter="24">
-            <el-col :span="16" >
-              <el-input
-                placeholder="输入关键字过滤"
-                v-model="filterText">
-              </el-input>
-            </el-col>
-            <el-col :span="8" >
-              <el-button @click="addClick">添加</el-button>
-            </el-col>
-          </el-row>
-          <div class="filter-tree">
-            <el-tree
-              :data="productTreeList"
-              :props="defaultProps"
-              :default-expand-all="expandAll"
-              :highlight-current="true"
-              :filter-node-method="filterNode"
-              ref="tree"
-              @node-click="treeNodeClick">
-            </el-tree>
-          </div>
-        </el-col>
-        <el-col :span="18">
-          <el-form ref="productForm" size="mini" :model="productForm" label-width="100px" v-show="showForm" :rules="productRules">
-            <el-form-item label="业务线名称" prop="service_name">
-                  <el-input v-model="productForm.service_name"  :disabled="disabled" placeholder="请输入业务线名称"></el-input>
-              </el-form-item>
-              <el-form-item label="字母简称" prop="module_letter">
-                  <el-input v-model="productForm.module_letter"  :disabled="disabled" placeholder="请输入字母简称"></el-input>
-              </el-form-item>
-              <el-form-item label="上级业务线" prop="pid">
-                  <el-select class="select" v-model="productForm.pid"  :disabled="disabled" placeholder="上级业务线">
-                    <el-option
-                      v-for="(item, index) in productLevel"
-                      :key="index"
-                      :label="item.service_name"
-                      :value="item.id">
-                    </el-option>
-                  </el-select>
-              </el-form-item>
-              <el-form-item label="运维接口人" prop="op_interface">
-                  <el-select multiple class="select" v-model="productForm.op_interface"  :disabled="disabled" filterable placeholder="请选择">
-                    <el-option
-                      v-for="(item, index) in userList"
-                      :key="index"
-                      :label="item.name"
-                      :value="item.id">
-                        <span style="float: left">{{ item.name }}</span>
-                        <span style="float: right; color: #8492a6; font-size: 13px">{{ item.email }}</span>
-                    </el-option>
-                  </el-select>
-              </el-form-item>
-              <el-form-item label="业务接口人" prop="dev_interface">
-                  <el-select multiple class="select" v-model="productForm.dev_interface" size="mini" :disabled="disabled" filterable placeholder="请选择">
-                    <el-option
-                      v-for="(item, index) in userList"
-                      :key="index"
-                      :label="item.name"
-                      :value="item.id"
-                      size="mini">
-                        <span style="float: left">{{ item.name }}</span>
-                        <span style="float: right; color: #8492a6; font-size: 13px">{{ item.email }}</span>
-                    </el-option>
-                  </el-select>
-              </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="submitClick" :disabled="disabled">提交</el-button>
-              <el-button type="primary" @click="editClick" :disabled="buttonDisabled">修改</el-button>
-              <el-button type="primary" @click="deleteClick" :disabled="buttonDisabled">删除</el-button>
-            </el-form-item>
-          </el-form>
-          <el-table
-              class="table"
-              v-loading="serverListloading"
-              element-loading-text="拼命加载中"
-              :data="serverList"
-              border
-              v-show="showServerListTable">
-            <el-table-column
-                    prop="idc.name"
-                    label="机房"
-                    align="center">
-            </el-table-column>
-            <el-table-column
-                    prop="hostname"
-                    label="主机名"
-                    align="center">
-            </el-table-column>
-            <el-table-column
-                    prop="manage_ip"
-                    label="管理IP"
-                    align="center">
-            </el-table-column>
-            <el-table-column
-                    prop="status"
-                    label="状态"
-                    align="center">
-            </el-table-column>
-             <el-table-column
-                    prop="last_check"
-                    label="LAST CHECK"
-                    align="center">
-            </el-table-column>
-          </el-table>
-          <div class="text-center" v-show="serverListTotalNum>=10">
-            <el-pagination
-                    background
-                    @current-change="paginationChange"
-                    layout="total, prev, pager, next, jumper"
-                    :current-page.sync="serverListPage"
-                    :total="serverListTotalNum">
-            </el-pagination>
-          </div>
-        </el-col>
-      </el-row>
-    </div>
+  <div class="user-list-container">
+    <el-row :gutter="24">
+      <el-col :span="6">
+        <el-row :gutter="24">
+          <el-col :span="16">
+            <el-input
+              v-model="filterText"
+              placeholder="输入关键字过滤"
+            />
+          </el-col>
+          <el-col :span="8">
+            <el-button @click="addClick">添加</el-button>
+          </el-col>
+        </el-row>
+        <div class="filter-tree">
+          <el-tree
+            ref="tree"
+            :data="productTreeList"
+            :props="defaultProps"
+            :default-expand-all="expandAll"
+            :highlight-current="true"
+            :filter-node-method="filterNode"
+            @node-click="treeNodeClick"
+          />
+        </div>
+      </el-col>
+      <el-col :span="18">
+        <el-form v-show="showForm" ref="productForm" size="mini" :model="productForm" label-width="100px" :rules="productRules">
+          <el-form-item label="业务线名称" prop="service_name">
+            <el-input v-model="productForm.service_name" :disabled="disabled" placeholder="请输入业务线名称" />
+          </el-form-item>
+          <el-form-item label="字母简称" prop="module_letter">
+            <el-input v-model="productForm.module_letter" :disabled="disabled" placeholder="请输入字母简称" />
+          </el-form-item>
+          <el-form-item label="上级业务线" prop="pid">
+            <el-select v-model="productForm.pid" class="select" :disabled="disabled" placeholder="上级业务线">
+              <el-option
+                v-for="(item, index) in productLevel"
+                :key="index"
+                :label="item.service_name"
+                :value="item.id"
+              />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="运维接口人" prop="op_interface">
+            <el-select v-model="productForm.op_interface" multiple class="select" :disabled="disabled" filterable placeholder="请选择">
+              <el-option
+                v-for="(item, index) in userList"
+                :key="index"
+                :label="item.name"
+                :value="item.id"
+              >
+                <span style="float: left">{{ item.name }}</span>
+                <span style="float: right; color: #8492a6; font-size: 13px">{{ item.email }}</span>
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="业务接口人" prop="dev_interface">
+            <el-select v-model="productForm.dev_interface" multiple class="select" size="mini" :disabled="disabled" filterable placeholder="请选择">
+              <el-option
+                v-for="(item, index) in userList"
+                :key="index"
+                :label="item.name"
+                :value="item.id"
+                size="mini"
+              >
+                <span style="float: left">{{ item.name }}</span>
+                <span style="float: right; color: #8492a6; font-size: 13px">{{ item.email }}</span>
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" :disabled="disabled" @click="submitClick">提交</el-button>
+            <el-button type="primary" :disabled="buttonDisabled" @click="editClick">修改</el-button>
+            <el-button type="primary" :disabled="buttonDisabled" @click="deleteClick">删除</el-button>
+          </el-form-item>
+        </el-form>
+        <el-table
+          v-show="showServerListTable"
+          v-loading="serverListloading"
+          class="table"
+          element-loading-text="拼命加载中"
+          :data="serverList"
+          border
+        >
+          <el-table-column
+            prop="idc.name"
+            label="机房"
+            align="center"
+          />
+          <el-table-column
+            prop="hostname"
+            label="主机名"
+            align="center"
+          />
+          <el-table-column
+            prop="manage_ip"
+            label="管理IP"
+            align="center"
+          />
+          <el-table-column
+            prop="status"
+            label="状态"
+            align="center"
+          />
+          <el-table-column
+            prop="last_check"
+            label="LAST CHECK"
+            align="center"
+          />
+        </el-table>
+        <div v-show="serverListTotalNum>=10" class="text-center">
+          <el-pagination
+            background
+            layout="total, prev, pager, next, jumper"
+            :current-page.sync="serverListPage"
+            :total="serverListTotalNum"
+            @current-change="paginationChange"
+          />
+        </div>
+      </el-col>
+    </el-row>
+  </div>
 </template>
 
 <script>
@@ -169,16 +172,13 @@ export default {
       state: 0
     }
   },
-  created() {
-    this.state = 1
-  },
   watch: {
     state() {
       getUserList({ page_size: 0 }).then(res => {
         this.userList = res
       })
       getProductTree().then(res => {
-        this.productTreeList = res
+        this.productTreeList = res.data
       })
       getProductLevel({ pid: 0, page_size: 0 }).then(res => {
         this.productLevel = [{ id: 0, service_name: '顶级' }].concat(res)
@@ -187,6 +187,9 @@ export default {
     filterText(val) {
       this.$refs.tree.filter(val)
     }
+  },
+  created() {
+    this.state = 1
   },
   methods: {
     filterNode(value, data) {
@@ -314,5 +317,4 @@ export default {
     width: 100%;
   }
 </style>
-
 

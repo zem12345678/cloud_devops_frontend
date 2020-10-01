@@ -1,10 +1,10 @@
 <template>
   <div class="user-list-container">
     <el-row :gutter="24">
-      <el-col :span="12" >
-         <el-input placeholder="搜索" v-model="search_key" @keyup.enter.native="searchClick">
-              <el-button slot="append" icon="el-icon-search" @click="searchClick"></el-button>
-          </el-input>
+      <el-col :span="12">
+        <el-input v-model="search_key" placeholder="搜索" @keyup.enter.native="searchClick">
+          <el-button slot="append" icon="el-icon-search" @click="searchClick" />
+        </el-input>
       </el-col>
       <el-col :span="6" :offset="6" class="text-right">
         <el-button type="primary" @click="addClick">添加</el-button>
@@ -12,97 +12,98 @@
     </el-row>
     <!-- 添加机柜开始 -->
     <el-dialog title="添加机柜" :visible.sync="isFormVisible">
-        <el-form ref="addForm" :model="addForm" label-width="80px" :rules="addRule">
-            <el-form-item label="机柜名称" prop="name">
-                <el-input v-model="addForm.name" maxlength="20" placeholder="请输入名称"></el-input>
-            </el-form-item>
-            <el-form-item label="电源功率" prop="power_supply">
-                <el-input v-model="addForm.power_supply" maxlength="5" placeholder="请输入电源功率"></el-input>
-            </el-form-item>
-            <el-form-item label="所在机房" prop="idc">
-              <el-select class="select" v-model="addForm.idc" placeholder="所在机房">
-                <el-option
-                  v-for="(item, index) in idcList"
-                  :key="index"
-                  :label="item.name"
-                  :value="item.id">
-                </el-option>
-              </el-select>
-            </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-            <el-button @click="isFormVisible = false">取 消</el-button>
-            <el-button type="primary" @click="submitForm">确 定</el-button>
-        </div>
+      <el-form ref="addForm" :model="addForm" label-width="80px" :rules="addRule">
+        <el-form-item label="机柜名称" prop="name">
+          <el-input v-model="addForm.name" maxlength="20" placeholder="请输入名称" />
+        </el-form-item>
+        <el-form-item label="电源功率" prop="power_supply">
+          <el-input v-model="addForm.power_supply" maxlength="5" placeholder="请输入电源功率" />
+        </el-form-item>
+        <el-form-item label="所在机房" prop="idc">
+          <el-select v-model="addForm.idc" class="select" placeholder="所在机房">
+            <el-option
+              v-for="(item, index) in idcList"
+              :key="index"
+              :label="item.name"
+              :value="item.id"
+            />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="isFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submitForm">确 定</el-button>
+      </div>
     </el-dialog>
     <!-- /结束 -->
     <!-- 修改机柜开始 -->
     <el-dialog title="修改机柜" :visible.sync="isEditFormVisible">
-        <el-form ref="editForm" :model="editForm" label-width="80px" :rules="addRule">
-            <el-form-item label="机柜名称" prop="name">
-                <el-input v-model="editForm.name" maxlength="20" placeholder="请输入名称"></el-input>
-            </el-form-item>
-            <el-form-item label="电源功率" prop="power_supply">
-                <el-input v-model="editForm.power_supply" maxlength="5" placeholder="请输入电源功率"></el-input>
-            </el-form-item>
-            <el-form-item label="所在机房" prop="idc">
-              <el-select class="select" v-model="editForm.idc" placeholder="所在机房">
-                <el-option
-                  v-for="(item, index) in idcList"
-                  :key="index"
-                  :label="item.name"
-                  :value="item.id">
-                </el-option>
-              </el-select>
-            </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-            <el-button @click="isEditFormVisible = false">取 消</el-button>
-            <el-button type="primary" @click="submitEditForm">确 定</el-button>
-        </div>
+      <el-form ref="editForm" :model="editForm" label-width="80px" :rules="addRule">
+        <el-form-item label="机柜名称" prop="name">
+          <el-input v-model="editForm.name" maxlength="20" placeholder="请输入名称" />
+        </el-form-item>
+        <el-form-item label="电源功率" prop="power_supply">
+          <el-input v-model="editForm.power_supply" maxlength="5" placeholder="请输入电源功率" />
+        </el-form-item>
+        <el-form-item label="所在机房" prop="idc">
+          <el-select v-model="editForm.idc" class="select" placeholder="所在机房">
+            <el-option
+              v-for="(item, index) in idcList"
+              :key="index"
+              :label="item.name"
+              :value="item.id"
+            />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="isEditFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submitEditForm">确 定</el-button>
+      </div>
     </el-dialog>
     <!-- /结束 -->
     <el-table
-            class="table"
-            v-loading="loading"
-            element-loading-text="拼命加载中"
-            :data="dataList"
-            border
-            >
-        <el-table-column
-                prop="name"
-                label="机柜名称"
-                align="center">
-        </el-table-column>
-        <el-table-column
-                prop="power_supply"
-                label="电源功率"
-                align="center">
-        </el-table-column>
-        <el-table-column
-                prop="idc.name"
-                label="所在机房"
-                align="center">
-        </el-table-column>
-        <el-table-column
-                prop=""
-                label="操作"
-                width="215"
-                align="center">
-            <template slot-scope="scope">
-              <el-button type="text" size="small"  @click="editClick(scope.row)">修改</el-button>
-              <el-button type="text" size="small"  @click="deleteClick(scope.row)">删除</el-button>
-            </template>
-        </el-table-column>
+      v-loading="loading"
+      class="table"
+      element-loading-text="拼命加载中"
+      :data="dataList"
+      border
+    >
+      <el-table-column
+        prop="name"
+        label="机柜名称"
+        align="center"
+      />
+      <el-table-column
+        prop="power_supply"
+        label="电源功率"
+        align="center"
+      />
+      <el-table-column
+        prop="idc.name"
+        label="所在机房"
+        align="center"
+      />
+      <el-table-column
+        prop=""
+        label="操作"
+        width="215"
+        align="center"
+      >
+        <template slot-scope="scope">
+          <el-button type="text" size="small" @click="editClick(scope.row)">修改</el-button>
+          <el-button type="text" size="small" @click="deleteClick(scope.row)">删除</el-button>
+        </template>
+      </el-table-column>
     </el-table>
-    <div class="text-center" v-show="total_num>=10">
-        <el-pagination
-                background
-                @current-change="paginationChange"
-                layout="total, prev, pager, next, jumper"
-                :current-page.sync="page"
-                :total="total_num">
-        </el-pagination>
+    <div v-show="total_num>=10" class="text-center">
+      <el-pagination
+        background
+        layout="total, prev, pager, next, jumper"
+        :current-page.sync="page"
+        :total="total_num"
+        @current-change="paginationChange"
+      />
     </div>
   </div>
 </template>
@@ -152,6 +153,17 @@ export default {
         ]
       }
     }
+  },
+  watch: {
+    state() {
+      this.fetchData()
+      getIdcList({ page_size: 0 }).then(res => {
+        this.idcList = res
+      })
+    }
+  },
+  created() {
+    this.state = 1
   },
   methods: {
     fetchData() {
@@ -238,17 +250,6 @@ export default {
           message: '操作失败',
           type: 'error'
         })
-      })
-    }
-  },
-  created() {
-    this.state = 1
-  },
-  watch: {
-    state() {
-      this.fetchData()
-      getIdcList({ page_size: 0 }).then(res => {
-        this.idcList = res
       })
     }
   }
